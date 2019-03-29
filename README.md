@@ -1,1 +1,0 @@
-# micronaut-aws-apiproxy-test
