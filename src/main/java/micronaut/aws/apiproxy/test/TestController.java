@@ -1,12 +1,14 @@
 package micronaut.aws.apiproxy.test;
 
+import io.micronaut.http.HttpRequest;
+import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.*;
-import io.micronaut.http.annotation.Error;
+import io.micronaut.http.cookie.Cookie;
 import io.micronaut.validation.Validated;
 
 import javax.validation.Valid;
-import javax.ws.rs.POST;
+import java.util.Set;
 
 @Controller("/test")
 @Validated
@@ -36,6 +38,16 @@ public class TestController {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public TestBean nonJsonConsumes(@Body TestBean body) {
         return body;
+    }
+
+    @Get("/returnCookie")
+    public HttpResponse returnCookie() {
+        return HttpResponse.ok("OK").cookie(Cookie.of("test", "cookieValue"));
+    }
+
+    @Get("/checkCookies")
+    public Set<Cookie> checkCookies(HttpRequest httpRequest) {
+        return httpRequest.getCookies().getAll();
     }
 
 }
