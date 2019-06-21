@@ -8,6 +8,8 @@ import io.micronaut.http.cookie.Cookie;
 import io.micronaut.validation.Validated;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 @Controller("/test")
@@ -46,8 +48,11 @@ public class TestController {
     }
 
     @Get("/checkCookies")
-    public Set<Cookie> checkCookies(HttpRequest httpRequest) {
-        return httpRequest.getCookies().getAll();
+    public Map checkCookies(HttpRequest httpRequest) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("cookies", httpRequest.getCookies().getAll());
+        map.put("cookieHeader", httpRequest.getHeaders().get("Cookie"));
+        return map;
     }
 
 }
